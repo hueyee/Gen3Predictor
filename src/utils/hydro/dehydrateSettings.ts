@@ -1,5 +1,6 @@
 import {
   DehydratedCalcdexSettingsMap,
+  DehydratedGen3PredictorSettingsMap,
   DehydratedHellodexSettingsMap,
   DehydratedHonkdexSettingsMap,
   DehydratedShowdexSettingsMap,
@@ -7,6 +8,7 @@ import {
 } from '@showdex/consts/hydro';
 import {
   type ShowdexCalcdexSettings,
+  type ShowdexGen3PredictorSettings,
   type ShowdexHellodexSettings,
   type ShowdexHonkdexSettings,
   type ShowdexSettings,
@@ -128,6 +130,7 @@ export const dehydrateSettings = (settings: ShowdexSettings): string => {
     developerMode,
     hellodex,
     calcdex,
+    gen3predictor,
     honkdex,
     showdown,
   } = settings;
@@ -183,6 +186,26 @@ export const dehydrateSettings = (settings: ShowdexSettings): string => {
   }).filter(Boolean);
 
   output.push(`${DehydratedShowdexSettingsMap.calcdex}:${calcdexOutput.join('|')}`);
+
+  const gen3predictorOutput: string[] = Object.entries(gen3predictor || {}).map(([
+    key,
+    value,
+  ]: [
+    keyof ShowdexGen3PredictorSettings,
+    ShowdexGen3PredictorSettings[keyof ShowdexGen3PredictorSettings],
+  ]) => {
+    const dehydratedKey = DehydratedGen3PredictorSettingsMap[key];
+
+    if (!dehydratedKey) {
+      return null;
+    }
+
+    const dehydratedValue = dehydrateValue(value);
+
+    return `${dehydratedKey.toLowerCase()}~${dehydratedValue}`;
+  }).filter(Boolean);
+
+  output.push(`${DehydratedShowdexSettingsMap.gen3predictor}:${gen3predictorOutput.join('|')}`);
 
   const honkdexOutput: string[] = Object.entries(honkdex || {}).map(([
     key,
