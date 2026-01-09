@@ -1,6 +1,7 @@
 export * from './ShowdexAssetBundle';
 export * from './ShowdexBootstrapper';
 export * from './ShowdexCalcdexSettings';
+export * from './ShowdexGen3PredictorSettings';
 export * from './ShowdexHellodexSettings';
 export * from './ShowdexHonkdexSettings';
 export * from './ShowdexLocaleBundle';
