@@ -1,5 +1,6 @@
 import {
   type ShowdexCalcdexSettings,
+  type ShowdexGen3PredictorSettings,
   type ShowdexHellodexSettings,
   type ShowdexHonkdexSettings,
   type ShowdexSettings,
@@ -121,6 +122,13 @@ export const DefaultShowdexSettings: ShowdexSettings = {
     ],
   },
 
+  gen3predictor: {
+    openOnStart: 'always',
+    openAs: 'panel',
+    closeOn: 'battle-tab',
+    destroyOnClose: true,
+  },
+
   honkdex: {
     visuallyEnabled: true,
     showAllFormats: false,
@@ -147,6 +155,7 @@ export const DehydratedShowdexSettingsMap: Record<keyof ShowdexSettings, string>
   developerMode: 'dm',
   hellodex: 'hd',
   calcdex: 'cd',
+  gen3predictor: 'gp',
   honkdex: 'kd',
   showdown: 'sd',
 };
@@ -273,3 +282,22 @@ export const DehydratedShowdownSettingsMap: Record<keyof ShowdexShowdownSettings
  * @since 1.1.7
  */
 export const HydratedShowdownSettingsMap = reverseObjectKv(DehydratedShowdownSettingsMap);
+
+/**
+ * Opcode mappings for the dehydrated `ShowdexGen3PredictorSettings`.
+ *
+ * @since 1.2.6
+ */
+export const DehydratedGen3PredictorSettingsMap: Record<keyof ShowdexGen3PredictorSettings, string> = {
+  openOnStart: 'oos',
+  openAs: 'oas',
+  closeOn: 'con',
+  destroyOnClose: 'doc',
+};
+
+/**
+ * Reverse opcode-to-key mappings for the hydrated `ShowdexGen3PredictorSettings`.
+ *
+ * @since 1.2.6
+ */
+export const HydratedGen3PredictorSettingsMap = reverseObjectKv(DehydratedGen3PredictorSettingsMap);

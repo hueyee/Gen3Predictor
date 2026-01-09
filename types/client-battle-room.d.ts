@@ -61,6 +61,7 @@ declare namespace Showdown {
 
     // Showdex-injected custom properties
     public toggleCalcdexOverlay?(): void;
+    public toggleGen3PredictorOverlay?(): void;
 
     public constructor(props: {
       id: string;

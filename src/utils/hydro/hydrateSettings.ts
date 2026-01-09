@@ -1,8 +1,10 @@
 import {
   DefaultShowdexSettings,
   DehydratedCalcdexSettingsMap,
+  DehydratedGen3PredictorSettingsMap,
   DehydratedShowdexSettingsMap,
   HydratedCalcdexSettingsMap,
+  HydratedGen3PredictorSettingsMap,
   HydratedHellodexSettingsMap,
   HydratedHonkdexSettingsMap,
   HydratedShowdexSettingsMap,
@@ -76,6 +78,7 @@ export const hydrateSettings = (
     colorScheme: getColorScheme(),
     hellodex: { ...DefaultShowdexSettings.hellodex },
     calcdex: { ...DefaultShowdexSettings.calcdex },
+    gen3predictor: { ...DefaultShowdexSettings.gen3predictor },
     honkdex: { ...DefaultShowdexSettings.honkdex },
     showdown: { ...DefaultShowdexSettings.showdown },
   };
@@ -195,6 +198,43 @@ export const hydrateSettings = (
             ].includes(dehydratedCalcdexKey)
               ? hydratePerSide(dehydratedCalcdexValue) as ShowdexCalcdexSettings[typeof hydratedCalcdexKey]
               : hydrateValue(dehydratedCalcdexValue) as ShowdexCalcdexSettings[typeof hydratedCalcdexKey];
+        });
+
+        break;
+      }
+
+      case DehydratedShowdexSettingsMap.gen3predictor: {
+        const dehydratedGen3PredictorSettings = dehydratedValue?.split('|') || [];
+
+        if (!dehydratedGen3PredictorSettings.length) {
+          break;
+        }
+
+        dehydratedGen3PredictorSettings.forEach((dehydratedGen3PredictorSetting) => {
+          const [
+            rawDehydratedGen3PredictorKey,
+            ...dehydratedGen3PredictorValues
+          ] = dehydratedGen3PredictorSetting?.split('~') || [];
+
+          const dehydratedGen3PredictorKey = rawDehydratedGen3PredictorKey?.toLowerCase();
+
+          if (!dehydratedGen3PredictorKey) {
+            return;
+          }
+
+          const dehydratedGen3PredictorValue = dehydratedGen3PredictorValues.join('~');
+          const hydratedGen3PredictorKey = HydratedGen3PredictorSettingsMap[dehydratedGen3PredictorKey];
+
+          if (!hydratedGen3PredictorKey || !(hydratedGen3PredictorKey in settings.gen3predictor)) {
+            return;
+          }
+
+          // Gen3Predictor settings include strings (openOnStart, openAs, closeOn) and booleans (destroyOnClose)
+          settings.gen3predictor[hydratedGen3PredictorKey] = [
+            DehydratedGen3PredictorSettingsMap.destroyOnClose,
+          ].includes(dehydratedGen3PredictorKey)
+            ? hydrateBoolean(dehydratedGen3PredictorValue)
+            : hydrateValue(dehydratedGen3PredictorValue);
         });
 
         break;

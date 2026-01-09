@@ -331,6 +331,7 @@ declare namespace Showdown {
     gen3ouPredictorRoom?: Showdown.HtmlRoom;
     gen3ouPredictorReactRoot?: import('react-dom/client').Root;
     gen3ouPredictorInit?: boolean;
+    gen3ouPredictorOverlayVisible?: boolean;
     gen3ouPredictorDestroyed?: boolean;
 
 
